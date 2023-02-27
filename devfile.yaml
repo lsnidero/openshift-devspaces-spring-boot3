@@ -154,7 +154,7 @@ commands:
   - id: install-java-17
     exec: 
       component: tools
-      commandLine: 'sdk install java 17.0.5-tem && sdk default java 17.0.5-tem && sdk install maven 3.8.7 && sdk default maven 3.8.7 '
+      commandLine: 'curl -sk https://raw.githubusercontent.com/lsnidero/openshift-devspaces-spring-boot3/main/configure-java-17.sh | bash'
       workingDir: ${PROJECTS_ROOT}
   - id: initial-setup
     exec:
