@@ -1,6 +1,6 @@
 schemaVersion: 2.2.0
 metadata:
-  name: SpringBoot 3 v5
+  name: SpringBoot 3 v6
 #attributes:
 #  controller.devfile.io/storage-type: ephemeral
 components:
@@ -147,8 +147,15 @@ components:
         - infinity
       memoryLimit: 768Mi
       mountSources: true
-
+events:
+  postStart:
+    - install-java-17
 commands:
+  - id: install-java-17
+    exec: 
+      component: tools
+      commandLine: './home/user/.sdkman/bin/sdkman-init.sh && sdk install java 17.0.5-tem && sdk default java 17.0.5-tem && sdk install maven 3.8.7 && sdk default maven 3.8.7 '
+      workingDir: /
   - id: initial-setup
     exec:
       label: 0. Initial Setup
