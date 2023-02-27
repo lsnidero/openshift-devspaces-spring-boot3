@@ -155,7 +155,7 @@ commands:
     exec: 
       component: tools
       commandLine: 'sdk install java 17.0.5-tem && sdk default java 17.0.5-tem && sdk install maven 3.8.7 && sdk default maven 3.8.7 '
-      workingDir: /
+      workingDir: ${PROJECTS_ROOT}
   - id: initial-setup
     exec:
       label: 0. Initial Setup
