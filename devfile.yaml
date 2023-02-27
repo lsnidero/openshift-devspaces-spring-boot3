@@ -154,7 +154,7 @@ commands:
   - id: install-java-17
     exec: 
       component: tools
-      commandLine: 'chmod +x ./home/user/.sdkman/bin/sdkman-init.sh && ./home/user/.sdkman/bin/sdkman-init.sh && sdk install java 17.0.5-tem && sdk default java 17.0.5-tem && sdk install maven 3.8.7 && sdk default maven 3.8.7 '
+      commandLine: 'sdk install java 17.0.5-tem && sdk default java 17.0.5-tem && sdk install maven 3.8.7 && sdk default maven 3.8.7 '
       workingDir: /
   - id: initial-setup
     exec:
