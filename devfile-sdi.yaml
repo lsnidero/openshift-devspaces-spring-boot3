@@ -3,24 +3,25 @@ metadata:
   name: SDI
 #attributes:
 #  controller.devfile.io/storage-type: ephemeral
-attributes:
-  - .vscode/extensions.json: |
-      {
-        "recommendations": [
-          "vscjava.vscode-java-pack",
-          "redhat.vscode-quarkus",
-          "sonarsource.sonarlint-vscode",
-          "redhat.fabric8-analytics",
-          "oderwat.indent-rainbow",
-          "mongodb.mongodb-vscode",
-          "redhat.vscode-xml"
-        ]
-      }
-  - .vscode/settings.json: |  
-      {
-        "java.jdt.ls.java.home": "~/.sdkman/candidates/java/current",
-        "maven.executable.preferMavenWrapper": false
-      }
+#attributes:
+  # - .vscode/extensions.json: |
+  #     {
+  #       "recommendations": [
+  #         "vscjava.vscode-java-pack",
+  #         "redhat.vscode-quarkus",
+  #         "sonarsource.sonarlint-vscode",
+  #         "redhat.fabric8-analytics",
+  #         "oderwat.indent-rainbow",
+  #         "mongodb.mongodb-vscode",
+  #         "redhat.vscode-xml",
+  #         "redhat.vscode-yaml"
+  #       ]
+  #     }
+  # - .vscode/settings.json: |  
+  #     {
+  #       "java.jdt.ls.java.home": "~/.sdkman/candidates/java/current",
+  #       "maven.executable.preferMavenWrapper": false
+  #     }
 components:
   - name: tools
     container:
