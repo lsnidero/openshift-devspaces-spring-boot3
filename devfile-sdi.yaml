@@ -5,19 +5,22 @@ metadata:
 #  controller.devfile.io/storage-type: ephemeral
 
 projects:
-  - name: monorepo
+  - name: sdi-monorepo
+    clonePath: resources/sdi-monorepo
     git:
       remotes:
         origin: 'https://dev.azure.com/SIFEntrate2Collection/TP_ENT_SA_0454/_git/sdi-monorepo'
       checkoutFrom:
         revision: main
+      
   - name: gitops
+    clonePath: resources/sdigitops
     git:
       remotes:
         origin: 'https://dev.azure.com/SIFEntrate2Collection/TP_ENT_SA_0454/_git/sdi-gitops'
       checkoutFrom:
         revision: main
-        
+
 components:
   - name: tools
     container:
