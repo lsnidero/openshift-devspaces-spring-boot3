@@ -6,7 +6,7 @@ metadata:
 
 projects:
   - name: sdi-monorepo
-    clonePath: resources/sdi-monorepo
+    #clonePath: resources/sdi-monorepo
     git:
       remotes:
         origin: 'https://dev.azure.com/SIFEntrate2Collection/TP_ENT_SA_0454/_git/sdi-monorepo'
@@ -14,7 +14,7 @@ projects:
         revision: main
       
   - name: gitops
-    clonePath: resources/sdi-gitops
+    #clonePath: resources/sdi-gitops
     git:
       remotes:
         origin: 'https://dev.azure.com/SIFEntrate2Collection/TP_ENT_SA_0454/_git/sdi-gitops'
@@ -163,9 +163,9 @@ commands:
         git config --global credential.helper 'cache --timeout 36000'
 
         # create workspace file
-        echo "{\"folders\": [{\"path\": \"/project/resources/sdi-gitops\"},{\"path\": \"/project/resources/sdi-monorepo\"}],\"settings\": {}}" > /projects/projects.code-workspace
+        echo "{\"folders\": [{\"path\": \"/project/resources/sdi-gitops\"},{\"path\": \"/project/resources/sdi-monorepo\"}],\"settings\": {}}" | jq > /projects/projects.code-workspace
 
-        mkdir /projects/resources
+
 
   - id: download-repos
     exec:
