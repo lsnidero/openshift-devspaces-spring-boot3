@@ -3,25 +3,21 @@ metadata:
   name: SDI
 #attributes:
 #  controller.devfile.io/storage-type: ephemeral
-#attributes:
-  # - .vscode/extensions.json: |
-  #     {
-  #       "recommendations": [
-  #         "vscjava.vscode-java-pack",
-  #         "redhat.vscode-quarkus",
-  #         "sonarsource.sonarlint-vscode",
-  #         "redhat.fabric8-analytics",
-  #         "oderwat.indent-rainbow",
-  #         "mongodb.mongodb-vscode",
-  #         "redhat.vscode-xml",
-  #         "redhat.vscode-yaml"
-  #       ]
-  #     }
-  # - .vscode/settings.json: |  
-  #     {
-  #       "java.jdt.ls.java.home": "~/.sdkman/candidates/java/current",
-  #       "maven.executable.preferMavenWrapper": false
-  #     }
+
+projects:
+  - name: monorepo
+    git:
+      remotes:
+        origin: 'https://dev.azure.com/SIFEntrate2Collection/TP_ENT_SA_0454/_git/sdi-monorepo'
+      checkoutFrom:
+        revision: main
+  - name: gitops
+    git:
+      remotes:
+        origin: 'https://dev.azure.com/SIFEntrate2Collection/TP_ENT_SA_0454/_git/sdi-gitops'
+      checkoutFrom:
+        revision: main
+        
 components:
   - name: tools
     container:
@@ -59,43 +55,6 @@ components:
     volume:
       size: 2G
 
-
-  #  - name: kafka
-  #    openshift:
-  #      uri: 'https://raw.githubusercontent.com/pietroaragona/openshift-devspaces-assets/main/kafka-deployment-v0.3.yaml'
-  #      endpoints:
-  #        - name: kafka-broker
-  #          targetPort: 9092
-  #        - name: kafka-ui
-  #          targetPort: 8888
-  #          path: /
-
-  #  - name: kafka
-  #    kubernetes:
-  #      deployByDefault: true
-  #      inlined: |
-  #        apiVersion: v1
-  #        kind: Pod
-  #        metadata:
-  #          name: kafka
-  #        spec:
-  #          containers:
-  #            - image: docker.io/lsnidero/kafka
-  #              name: kafka
-  #              ports:
-  #                - name: broker-9092
-  #                  containerPort: 9092
-
-  #  - name: kafka
-  #    openshift:
-  #      uri: 'kafka-deployment-v0.3.yaml'
-  #      endpoints:
-  #        - name: kafka-broker
-  #          targetPort: 9092
-  #        - name: kafka-ui
-  #          targetPort: 8888
-  #          path: /
-
   - name: kafka
     container:
       image: docker.io/lsnidero/kafka:0.0.1
@@ -110,31 +69,6 @@ components:
           path: /var/lib/zookeeper
       memoryLimit: 768Mi
       mountSources: true
-
-    #  - name: nginx
-    #    kubernetes:
-    #      deployByDefault: true
-    #      inlined: |
-    #        apiVersion: apps/v1
-    #        kind: Deployment
-    #        metadata:
-    #          name: nginx
-    #        spec:
-    #          selector:
-    #            matchLabels:
-    #              app: nginx
-    #          template:
-    #            metadata:
-    #              labels:
-    #                app: nginx
-    #            spec:
-    #              containers:
-    #                - name: nginx
-    #                  image: nginxinc/nginx-unprivileged
-    #                  ports:
-    #                    - containerPort: 80
-
-
 
   - name: zookeeper-vol
     volume:
@@ -196,15 +130,6 @@ components:
     volume:
       size: 1G
 
-#  - name: oracle
-#    container:
-#      image: 'alm-repos.sogei.it/ptt/oracle-init:1.1'
-#      command:
-#        - sleep
-#        - infinity
-#      memoryLimit: 768Mi
-#      mountSources: true
-
 commands:
   - id: setup-environment
     exec:
@@ -222,7 +147,7 @@ commands:
 
         # configure settings.xml and .npmrc
         setup_configurations_files(){
-          MVN_SETTINGS_REMOTE="https://alm-repos.sogei.it/repository/codeready-plugins/assets/settings-https-v1.xml"
+          MVN_SETTINGS_REMOTE="https://alm-repos.sogei.it/repository/codeready-plugins/assets/settings-https-v3.xml"
           mkdir -p /home/user/.m2
           wget  -q --no-check-certificate $MVN_SETTINGS_REMOTE -O /home/user/.m2/settings.xml
         
@@ -239,8 +164,7 @@ commands:
       label: 0.1 - Initial Environment Setup
       component: tools
       workingDir: ${PROJECTS_ROOT}
-      #commandLine: curl -s https://alm-repos.sogei.it/repository/codeready-plugins/assets/scripts/download-repos.sh | bash
-      commandLine: curl -s https://raw.githubusercontent.com/lsnidero/openshift-devspaces-spring-boot3/project-sdi/scripts/sdi/setup-sdi-v3.sh | bash
+      commandLine: curl -s https://alm-repos.sogei.it/repository/codeready-plugins/assets/scripts/sdi/setup-sdi-v3.sh | bash
 
   #  - id: setup-databases
   #    exec:
@@ -303,7 +227,6 @@ commands:
         kind: run
         isDefault: true
 
-
   - id: composite-initial-setup
     composite:
       commands:
@@ -311,12 +234,6 @@ commands:
         - setup-environment
         - setup-databases
 
-#events:
-#  postStart:
-#    - composite-initial-setup
-##    - install-plugins
-##    - setup-environment
-##    - setup-databases
 events:
   postStart:
     - setup-environment
