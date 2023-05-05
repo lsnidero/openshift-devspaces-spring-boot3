@@ -11,7 +11,7 @@ projects:
       remotes:
         origin: 'https://dev.azure.com/SIFEntrate2Collection/TP_ENT_SA_0454/_git/sdi-monorepo'
       checkoutFrom:
-        revision: main
+        revision: feature/devfile-in-repo
       
   - name: gitops
     #clonePath: resources/sdi-gitops
