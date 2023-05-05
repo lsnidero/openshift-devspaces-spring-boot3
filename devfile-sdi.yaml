@@ -13,7 +13,7 @@ projects:
       checkoutFrom:
         revision: feature/devfile-in-repo
       
-  - name: gitops
+  - name: sdi-gitops
     #clonePath: resources/sdi-gitops
     git:
       remotes:
