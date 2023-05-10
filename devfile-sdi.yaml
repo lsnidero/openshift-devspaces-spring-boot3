@@ -143,7 +143,7 @@ commands:
         # set java version
         . /home/user/.sdkman/bin/sdkman-init.sh
         JAVA_V=17.0.3-tem
-        CERTS_DIR=${PROJECTS_ROOT}/sdi-monorepo/devspaces/certs
+        CUSTOM_CA_DIR=${PROJECTS_ROOT}/ca-trust/source/anchors
         TRUST_STORE_FILE=/home/user/.sdkman/candidates/java/current/lib/security/cacerts
         
         sdk install java $JAVA_V
@@ -160,11 +160,11 @@ commands:
           wget  -q --no-check-certificate $MVN_SETTINGS_REMOTE -O /home/user/.m2/settings.xml
         
           echo registry=https://alm-repos.sogei.it/repository/npm-group/ > /home/user/.npmrc
-          echo cafile=/etc/pki/ca-trust/source/anchors/alm-repos.sogei.it-ca.crt >> /home/user/.npmrc
+          echo cafile=${CUSTOM_CA_DIR}/alm-repos.sogei.it-ca.crt >> /home/user/.npmrc
           
-          echo "Importing self signed certificates"
-          keytool -import -alias 'ingress' -file ${CERTS_DIR}/ingress-operator.crt -storetype JKS -keystore ${TRUST_STORE_FILE} -keypass changeit -storepass changeit -noprompt
-          keytool -import -alias 'apps' -file ${CERTS_DIR}/apps.devspace.crt -storetype JKS -keystore ${TRUST_STORE_FILE} -keypass changeit -storepass changeit -noprompt
+          echo "Importing self signed certificates (disabled)"
+          #keytool -import -alias 'ingress' -file ${CUSTOM_CA_DIR}/ingress-operator.crt -storetype JKS -keystore ${TRUST_STORE_FILE} -keypass changeit -storepass changeit -noprompt
+          #keytool -import -alias 'apps' -file ${CUSTOM_CA_DIR}/apps.devspace.crt -storetype JKS -keystore ${TRUST_STORE_FILE} -keypass changeit -storepass changeit -noprompt
         }
         setup_configurations_files
 
