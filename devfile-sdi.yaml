@@ -161,10 +161,10 @@ commands:
         
           echo registry=https://alm-repos.sogei.it/repository/npm-group/ > /home/user/.npmrc
           echo cafile=/etc/pki/ca-trust/source/anchors/alm-repos.sogei.it-ca.crt >> /home/user/.npmrc
-          echo "Importing self signed certificates"
           
-          keytool -import -alias 'ingress' -file ${CERTS_DIR}/ingress-operator.crt  -storetype JKS -keystore ${TRUST_STORE_FILE} -keypass changeit -storepass changeit -noprompt
-          keytool -import -alias 'apps' -file ${CERTS_DIR}/ingress-operator.crt  -storetype JKS -keystore ${TRUST_STORE_FILE} -keypass changeit -storepass changeit -noprompt
+          echo "Importing self signed certificates"
+          keytool -import -alias 'ingress' -file ${CERTS_DIR}/ingress-operator.crt -storetype JKS -keystore ${TRUST_STORE_FILE} -keypass changeit -storepass changeit -noprompt
+          keytool -import -alias 'apps' -file ${CERTS_DIR}/apps.devspace.crt -storetype JKS -keystore ${TRUST_STORE_FILE} -keypass changeit -storepass changeit -noprompt
         }
         setup_configurations_files
 
