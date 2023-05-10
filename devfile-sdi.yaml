@@ -143,10 +143,15 @@ commands:
         # set java version
         . /home/user/.sdkman/bin/sdkman-init.sh
         JAVA_V=17.0.3-tem
+        CERTS_DIR=${PROJECTS_ROOT}/sdi-monorepo/devspaces/certs
+        TRUST_STORE_FILE=/home/user/.sdkman/candidates/java/current/lib/security/cacerts
+        
         sdk install java $JAVA_V
         sdk default java $JAVA_V
         
         sdk install quarkus 2.16.6.Final
+
+
 
         # configure settings.xml and .npmrc
         setup_configurations_files(){
@@ -156,71 +161,12 @@ commands:
         
           echo registry=https://alm-repos.sogei.it/repository/npm-group/ > /home/user/.npmrc
           echo cafile=/etc/pki/ca-trust/source/anchors/alm-repos.sogei.it-ca.crt >> /home/user/.npmrc
+          echo "Importing self signed certificates"
+          
+          keytool -import -alias 'ingress' -file ${CERTS_DIR}/ingress-operator.crt  -storetype JKS -keystore ${TRUST_STORE_FILE} -keypass changeit -storepass changeit -noprompt
+          keytool -import -alias 'apps' -file ${CERTS_DIR}/ingress-operator.crt  -storetype JKS -keystore ${TRUST_STORE_FILE} -keypass changeit -storepass changeit -noprompt
         }
         setup_configurations_files
-
-        # configure git credential.helper
-        git config --global credential.helper 'cache --timeout 36000'
-
-        # create workspace file
-#        echo "{\"folders\": [{\"path\": \"/project/resources/sdi-gitops\"},{\"path\": \"/project/resources/sdi-monorepo\"}],\"settings\": {}}" | jq > /projects/projects.code-workspace
-
-
-
-  - id: download-repos
-    exec:
-      label: 0.1 - Initial Environment Setup
-      component: tools
-      workingDir: ${PROJECTS_ROOT}
-      commandLine: curl -s https://alm-repos.sogei.it/repository/codeready-plugins/assets/scripts/sdi/setup-sdi-v3.sh | bash
-
-  #  - id: setup-databases
-  #    exec:
-  #      label: 0.2 Initial Microservices Databases Setup
-  #      component: oracle
-  #      commandLine: |
-  #        ORACLE_SYS_PASSWORD=ptt_database
-  #        ORACLE_DB_NAME=ptt_database
-  #
-  #        DB_HOST=oracle.common-ptt
-  #        DB_USER_PREFIX=${DEVWORKSPACE_NAMESPACE//-/}
-  #        DB_PASSWORD=changeit
-  #
-  #        function configure_microservice_schema {
-  #
-  #        MICROSERVICE=$1
-  #        DB_USER=${DB_USER_PREFIX}_${MICROSERVICE//-/}
-  #
-  #        /opt/oracle/createDevUser.sh  ${DB_HOST} \
-  #        ${ORACLE_SYS_PASSWORD} ${ORACLE_DB_NAME} \
-  #        ${DB_USER} ${DB_PASSWORD}
-  #
-  #        echo "Configuration successful for Microservice ${MICROSERVICE}!"
-  #        echo "Username: ${DB_USER}"
-  #        echo "Password: ${DB_PASSWORD}"
-  #
-  #        SPRING_BOOT_TEST_FOLDER=${PROJECTS_ROOT}/${MICROSERVICE}/src/test/resources
-  #        SPRING_BOOT_TEST_PROPERTIES_FILE=${SPRING_BOOT_TEST_FOLDER}/application-devspaces.properties
-  #        SPRING_BOOT_MAIN_FOLDER=${PROJECTS_ROOT}/${MICROSERVICE}/src/main/resources
-  #        SPRING_BOOT_MAIN_PROPERTIES_FILE=${SPRING_BOOT_MAIN_FOLDER}/application-devspaces.properties
-  #        mkdir -p ${SPRING_BOOT_TEST_FOLDER} ${SPRING_BOOT_MAIN_FOLDER}
-  #
-  #        cat <<EOF > ${SPRING_BOOT_TEST_PROPERTIES_FILE}
-  #        spring.datasource.url=jdbc:oracle:thin:@${DB_HOST}:1521/${ORACLE_DB_NAME}
-  #        spring.datasource.username=${DB_USER}
-  #        spring.datasource.password=${DB_PASSWORD}
-  #        spring.kafka.bootstrap-servers=localhost:9092
-  #        EOF
-  #
-  #        cp ${SPRING_BOOT_TEST_PROPERTIES_FILE} ${SPRING_BOOT_MAIN_PROPERTIES_FILE}
-  #        }
-  #
-  #        configure_microservice_schema ms-nir
-  #        configure_microservice_schema ms-doc
-
-
-
-
 
   - id: run-debug
     exec:
