@@ -1,11 +1,6 @@
 schemaVersion: 2.2.0
 metadata:
   name: quarkus-prj
-projects:
-  - git:
-      remotes:
-        origin: https://github.com/pietroaragona/openshift-devspaces-quarkus-ibmz.git
-    name: openshift-devspaces-quarkus-ibmz
 components:
   - attributes:
       controller.devfile.io/merge-contribution: true
