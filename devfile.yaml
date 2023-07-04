@@ -1,12 +1,12 @@
 schemaVersion: 2.2.0
 metadata:
-  name: quarkus-prj
+  name: Quarkus-prj
+#attributes:
+#  controller.devfile.io/storage-type: ephemeral
 components:
-  - attributes:
-      controller.devfile.io/merge-contribution: true
+  - name: tools
     container:
-      cpuLimit: 1500m
-      cpuRequest: 400m
+      image: alm-repos.sogei.it/devfile/universal-developer-image:3.6_s390x_v1.1.0
       endpoints:
         - exposure: none
           name: debug
@@ -14,42 +14,29 @@ components:
           targetPort: 5555
         - exposure: public
           name: app-be
-          path: /openapi/ui
           protocol: http
           targetPort: 8080
-      env:
-        - name: CHE_DASHBOARD_URL
-          value: https://devspaces.apps.zmvplab.cnt.sogei.it
-        - name: CHE_PLUGIN_REGISTRY_URL
-          value: https://devspaces.apps.zmvplab.cnt.sogei.it/plugin-registry/v3
-        - name: CHE_PLUGIN_REGISTRY_INTERNAL_URL
-          value: http://plugin-registry.openshift-devspaces.svc:8080/v3
-        - name: CLUSTER_CONSOLE_URL
-          value: https://console-openshift-console.apps.zmvplab.cnt.sogei.it
-        - name: CLUSTER_CONSOLE_TITLE
-          value: OpenShift console
-        - name: OPENVSX_REGISTRY_URL
-          value: https://open-vsx.org
-      image: alm-repos.sogei.it/devfile/universal-developer-image:3.6_s390x_v1.0.0
-      memoryLimit: 6G
-      memoryRequest: 3G
-      mountSources: true
-      sourceMapping: /projects
+          path: /openapi/ui
       volumeMounts:
         - name: m2
           path: /home/user/.m2
-    name: tools
+      memoryLimit: 6G
+      memoryRequest: 3G
+      cpuLimit: 1500m
+      cpuRequest: 400m
+      mountSources: true
+
   - name: m2
     volume:
       size: 2G
+
 commands:
-  - exec:
+  - id: setup-environment
+    exec:
+      label: 0.1 - Initial Environment Setup
+      component: tools
+      workingDir: ${PROJECTS_ROOT}
       commandLine: |
-        # set java version
-        #. /home/user/.sdkman/bin/sdkman-init.sh
-        #JAVA_V=17.0.3-tem
-        #sdk install java $JAVA_V
-        #sdk default java $JAVA_V
 
         # configure settings.xml and .npmrc
         setup_configurations_files(){
@@ -63,12 +50,9 @@ commands:
         setup_configurations_files
 
         # configure git credential.helper
-        #git config --global credential.helper 'cache --timeout 36000'
+        git config --global credential.helper 'cache --timeout 36000'
         git clone https://SIFEntrate1Collection@dev.azure.com/SIFEntrate1Collection/TP-ENT-SA-0007/_git/mono-repo /projects/monorepo
         git clone https://SIFEntrate1Collection@dev.azure.com/SIFEntrate1Collection/TP-ENT-SA-0007/_git/nuovoaccertamento-manifest /projects/gitops
 
-      component: tools
-      label: 0.1 - Initial Environment Setup
-      workingDir: ${PROJECTS_ROOT}
-    id: setup-environment
+
 
