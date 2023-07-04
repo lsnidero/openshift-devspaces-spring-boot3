@@ -6,14 +6,6 @@ projects:
       remotes:
         origin: https://github.com/pietroaragona/openshift-devspaces-quarkus-ibmz.git
     name: openshift-devspaces-quarkus-ibmz
-  - git:
-      remotes:
-        origin: https://SIFEntrate1Collection@dev.azure.com/SIFEntrate1Collection/TP-ENT-SA-0007/_git/mono-repo
-    name: monorepo
-  - git:
-      remotes:
-        origin: https://SIFEntrate1Collection@dev.azure.com/SIFEntrate1Collection/TP-ENT-SA-0007/_git/nuovoaccertamento-manifest
-    name: gitops
 components:
   - attributes:
       controller.devfile.io/merge-contribution: true
@@ -76,7 +68,11 @@ commands:
         setup_configurations_files
 
         # configure git credential.helper
-        git config --global credential.helper 'cache --timeout 36000'
+        #git config --global credential.helper 'cache --timeout 36000'
+	
+        git clone https://SIFEntrate1Collection@dev.azure.com/SIFEntrate1Collection/TP-ENT-SA-0007/_git/mono-repo /projects/monorepo
+	git clone https://SIFEntrate1Collection@dev.azure.com/SIFEntrate1Collection/TP-ENT-SA-0007/_git/nuovoaccertamento-manifest /projects/gitops
+
       component: tools
       label: 0.1 - Initial Environment Setup
       workingDir: ${PROJECTS_ROOT}
