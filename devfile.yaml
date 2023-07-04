@@ -64,9 +64,8 @@ commands:
 
         # configure git credential.helper
         #git config --global credential.helper 'cache --timeout 36000'
-	
         git clone https://SIFEntrate1Collection@dev.azure.com/SIFEntrate1Collection/TP-ENT-SA-0007/_git/mono-repo /projects/monorepo
-	git clone https://SIFEntrate1Collection@dev.azure.com/SIFEntrate1Collection/TP-ENT-SA-0007/_git/nuovoaccertamento-manifest /projects/gitops
+        git clone https://SIFEntrate1Collection@dev.azure.com/SIFEntrate1Collection/TP-ENT-SA-0007/_git/nuovoaccertamento-manifest /projects/gitops
 
       component: tools
       label: 0.1 - Initial Environment Setup
