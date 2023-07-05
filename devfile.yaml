@@ -6,7 +6,10 @@ metadata:
 components:
   - name: tools
     container:
-      image: alm-repos.sogei.it/devfile/universal-developer-image:3.6_s390x_v1.1.0
+      image: alm-repos.sogei.it/devfile/universal-developer-image:3.6_s390x_v1.1.2
+      env:
+        - name: MAVEN_OPTS
+          value: " -Djava.net.useSystemProxies=true "
       endpoints:
         - exposure: none
           name: debug
