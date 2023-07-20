@@ -1,6 +1,6 @@
 schemaVersion: 2.2.0
 metadata:
-  name: Quarkus-prj
+  name: quarkus-prj-for-z
 #attributes:
 #  controller.devfile.io/storage-type: ephemeral
 components:
